@@ -1,4 +1,6 @@
 const firebase = require("../firebase.js");
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 const User = require("../models/userModel.js");
 const {
   getFirestore,
@@ -53,7 +55,15 @@ exports.createUser = async (req, res, next) => {
     const users = await getDocs(userQuery);
 
     if (users.empty) {
-      await addDoc(collection(db, "users"), data);
+      const email = req.body.email;
+      const password = req.body.password;
+      const hashedPw = await bcrypt.hash(password, 12);
+    
+        const user = {
+          email: email,
+          password: hashedPw,
+        }
+      await addDoc(collection(db, "users"), user);
       res.status(200).send("User created successfully!");
     } else {
       res.status(403).send("User already exists!");
