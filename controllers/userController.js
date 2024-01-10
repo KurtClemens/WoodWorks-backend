@@ -30,8 +30,7 @@ exports.getUsers = async (req, res, next) => {
           doc.id,
           doc.data().email,
           doc.data().password,
-          doc.data().firstName,
-          doc.data().lastName
+          doc.data().active
         );
         userArray.push(user);
       });
@@ -56,12 +55,14 @@ exports.createUser = async (req, res, next) => {
 
     if (users.empty) {
       const email = req.body.email;
+      const active = req.body.active;
       const password = req.body.password;
       const hashedPw = await bcrypt.hash(password, 12);
     
         const user = {
           email: email,
           password: hashedPw,
+          active: active
         }
       await addDoc(collection(db, "users"), user);
       res.status(200).send("User created successfully!");
@@ -80,7 +81,7 @@ exports.getUser = async (req, res, next) => {
 
     const userData = await getDoc(user);
     if (userData.data() !== undefined) {
-      res.status(200).send(data.data());
+      res.status(200).send(userData.data());
     } else {
       res.status(404).send("User not found!");
     }
@@ -92,7 +93,18 @@ exports.getUser = async (req, res, next) => {
 exports.updateUser = async (req, res, next) => {
   try {
     const id = req.params.id;
-    const data = req.body;
+    //const data = req.body;
+
+    const email = req.body.email;
+    const active = req.body.active;
+    // const password = req.body.password;
+    // const hashedPw = await bcrypt.hash(password, 12);
+  
+      const data = {
+        email: email,
+        //password: hashedPw,
+        active: active
+      }
     const user = doc(db, "users", id);
     const userData = await getDoc(user);
     if (userData.data() !== undefined) {

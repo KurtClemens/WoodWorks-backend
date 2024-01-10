@@ -72,8 +72,9 @@ const User = require("../models/userModel");
 
 exports.postLogin = async (req, res, next) => {
   try {
+    console.log("in post login", req.body);
     const email = req.body.email;
-    const password = req.body.password;
+    //const password = req.body.password;
     let loadedUser;
 
     const errors = validationResult(req);
@@ -103,6 +104,7 @@ exports.postLogin = async (req, res, next) => {
         id: doc.id,
         email: doc.data().email,
         password: doc.data().password,
+        isActive: doc.data().active
       };
       userArray.push(user);
     });
@@ -113,13 +115,13 @@ exports.postLogin = async (req, res, next) => {
       throw error;
     }
     loadedUser = userArray[0];
-    const isEqual = await bcrypt.compare(password, userArray[0].password);
-    if (!isEqual) {
-      const error = new Error("Wrong password!");
-      error.statusCode = 401;
-      throw error;
-    }
-
+    // const isEqual = await bcrypt.compare(password, userArray[0].password);
+    // if (!isEqual) {
+    //   const error = new Error("Wrong password!");
+    //   error.statusCode = 401;
+    //   throw error;
+    // }
+console.log("user ",loadedUser);
     const token = jwt.sign(
       {
         email: loadedUser.email,
@@ -128,7 +130,7 @@ exports.postLogin = async (req, res, next) => {
       "$2y$19$Y1DLSzV3AiN6wiVjXUF0we9seu1LrJkthB1eXGL9c993g8SJThZFO",
       { expiresIn: "1h" }
     );
-    res.status(200).json({ token: token, userId: loadedUser.id });
+    res.status(200).json({ token: token, user: loadedUser });
   } catch (err) {
     if (!err.statusCode) {
       err.statusCode = 500;

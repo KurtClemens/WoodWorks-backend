@@ -32,10 +32,10 @@ router.post(
       .isEmail()
       .withMessage("Please enter a valid email address.")
       .normalizeEmail(),
-    body("password", "Password has to be valid.")
-      .isLength({ min: 6 })
-      .isAlphanumeric()
-      .trim(),
+    // body("password", "Password has to be valid.")
+    //   .isLength({ min: 6 })
+    //   .isAlphanumeric()
+    //   .trim(),
   ],
   authorizationController.postLogin
 );

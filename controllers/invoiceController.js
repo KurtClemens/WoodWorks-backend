@@ -25,14 +25,14 @@ exports.getInvoices = async (req, res, next) => {
       res.status(400).send("No invoices found!");
     } else {
       invoices.forEach((doc) => {
-        console.log(doc.data());
-
         const invoice = new Invoice(
           doc.id,
           doc.data().number,
           doc.data().content,
           doc.data().amount,
-          doc.data().signature
+          doc.data().signed,
+          doc.data().signature,
+          doc.data().payed
         );
         invoiceArray.push(invoice);
       });
@@ -115,7 +115,6 @@ exports.deleteInvoice = async (req, res, next) => {
     const invoiceData = await getDoc(invoice);
 
     if (invoiceData.data() !== undefined) {
-      console.log(invoiceData.data());
       await deleteDoc(doc(db, "customers", customerId, "invoices", invoiceId));
       res.status(200).send("Invoice deleted successfully!");
     } else {

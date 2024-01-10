@@ -6,9 +6,9 @@ class Customer {
     postalCode,
     street,
     number,
+    phoneNumber,
     lastName,
     firstName,
-    phoneNumber
   ) {
     this.id = id;
     this.email = email;

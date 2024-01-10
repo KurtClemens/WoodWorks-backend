@@ -1,6 +1,8 @@
 const jwt = require("jsonwebtoken");
 
 module.exports = (req, res, next) => {
+  console.log("in authorization ",)
+
   const authHeader = req.get('Authorization');
   console.log(req.get('Authorization'))
   if (!authHeader) {
@@ -9,7 +11,6 @@ module.exports = (req, res, next) => {
     throw error;
   }
   const token = authHeader.split(' ')[1];
-  
   let decodedToken;
   try {
     decodedToken = jwt.verify(token, "$2y$19$Y1DLSzV3AiN6wiVjXUF0we9seu1LrJkthB1eXGL9c993g8SJThZFO");

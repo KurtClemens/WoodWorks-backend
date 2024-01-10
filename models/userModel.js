@@ -1,9 +1,9 @@
 class User {
-    constructor(id, email, password, confirmPassword) {
+    constructor(id, email, password,  active) {
       (this.id = id),
         (this.email = email),
         (this.password = password),
-        (this.confirmPassword = confirmPassword)
+        (this.active = active)
     }
   }
   
