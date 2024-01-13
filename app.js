@@ -6,7 +6,7 @@ const userRoute = require("./routes/userRoute.js");
 const customerRoute = require("./routes/customerRoute.js");
 const invoiceRoute = require("./routes/invoiceRoute.js");
 const emailRoute = require("./routes/emailRoute.js");
-const authorizationRoute = require("./routes/authorizationRoute");
+const authorizationRoute = require("./routes/authorizationRoute.js");
 // var nodemailer = require("nodemailer");
 
 const app = express();
