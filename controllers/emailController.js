@@ -34,7 +34,7 @@ exports.sendEmail = (req, res, next) => {
   });
 
   var mailOptions = {
-    from: "noreply@woodworks.be",
+    from: config.default.emailAddress,
     to: data.recipient,
     subject: data.subject,
     text: data.message,
